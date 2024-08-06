@@ -29,6 +29,12 @@ function StartScene:keypressed(key)
         highlighted = highlighted == 1 and 2 or 1
         sounds.paddle_hit:play()
     end
+    if key == 'enter' or key == 'return' then
+        sounds.confirm:play()
+        if highlighted == 1 then
+            self.stateMachine:change('play')
+        end
+    end
     if key == 'escape' then
         love.event.quit()
     end

@@ -8,9 +8,11 @@ local images = require('images')
 
 local StateMachine = require('state_machine')
 local StartScene = require('scenes.start')
+local PlayScene = require('scenes.play')
 
 local stateMachine = StateMachine.new({
-    start = StartScene.new
+    start = StartScene.new,
+    play = PlayScene.new
 })
 
 function love.load()
