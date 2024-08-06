@@ -1,3 +1,5 @@
+local sounds = require('sounds')
+
 local font = love.graphics.newFont('assets/fonts/font.ttf', 42)
 
 local text = 'breakout'
@@ -6,6 +8,9 @@ function love.load()
 end
 
 function love.keypressed(key)
+    if key == 'enter' or key == 'return' then
+        sounds['hurt']:play()
+    end
     if key == 'escape' then
         love.event.quit()
     end
