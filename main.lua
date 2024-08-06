@@ -5,19 +5,24 @@ local push = require('deps.push')
 love.graphics.setDefaultFilter('nearest', 'nearest')
 
 local sprites = require('sprites')
-local fonts = require('fonts')
 
-local time = 0
-local title = 'breakout'
+local StateMachine = require('state_machine')
+local StartScene = require('scenes.start')
+
+local stateMachine = StateMachine.new({
+    start = StartScene.new
+})
 
 function love.load()
-    love.window.setTitle(string.upper(title))
+    love.window.setTitle('BREAKOUT')
 
     push:setupScreen(GAME_WIDTH, GAME_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
         vsync = true,
         resizable = true,
         fullscreen = false
     })
+
+    stateMachine:change('start')
 end
 
 function love.resize(w, h)
@@ -25,41 +30,21 @@ function love.resize(w, h)
 end
 
 function love.keypressed(key)
-    if key == 'escape' then
-        love.event.quit()
-    end
+    stateMachine:keypressed(key)
 end
 
 function love.update(dt)
-    time = time + dt
-end
-
-local function drawTitle()
-    local font = fonts['large']
-    love.graphics.setFont(font)
-
-    local startWidth = (GAME_WIDTH - font:getWidth(title)) / 2
-    local chHeight = font:getHeight()
-    for i = 1, #title do
-        local color = RAINBOW[i]
-        love.graphics.setColor(color.r, color.g, color.b, 255)
-
-        local ch = title:sub(i, i)
-        local chWidth = font:getWidth(ch)
-        startWidth = startWidth + chWidth / 2
-        love.graphics.print(ch, startWidth, GAME_HEIGHT / 4 + math.sin(time * 5 + 20 * i) * 10, 0, 1, 1, chWidth / 2, chHeight / 2)
-        startWidth = startWidth + chWidth / 2
-    end
+    stateMachine:update(dt)
 end
 
 function love.draw()
     push:start()
 
-    local bgWidth = sprites['background']:getWidth()
-    local bgHeight = sprites['background']:getHeight()
+    local bgWidth = sprites.background:getWidth()
+    local bgHeight = sprites.background:getHeight()
 
     love.graphics.draw(
-        sprites['background'],
+        sprites.background,
         -- x, y
         0, 0,
         -- no rotation
@@ -71,7 +56,7 @@ function love.draw()
         GAME_HEIGHT / (bgHeight - 1)
     )
 
-    drawTitle()
+    stateMachine:render()
 
     push:finish()
 end
