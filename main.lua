@@ -1,22 +1,33 @@
-local sounds = require('sounds')
+require('consts')
+
+local push = require('deps.push')
+
+love.graphics.setDefaultFilter('nearest', 'nearest')
 
 local font = love.graphics.newFont('assets/fonts/font.ttf', 42)
 
-local text = 'breakout'
+local time = 0
+local title = 'breakout'
 
 function love.load()
+    love.window.setTitle(string.upper(title))
+
+    push:setupScreen(GAME_WIDTH, GAME_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
+        vsync = true,
+        resizable = true,
+        fullscreen = false
+    })
+end
+
+function love.resize(w, h)
+    push:resize(w, h)
 end
 
 function love.keypressed(key)
-    if key == 'enter' or key == 'return' then
-        sounds['hurt']:play()
-    end
     if key == 'escape' then
         love.event.quit()
     end
 end
-
-local time = 0
 
 function love.update(dt)
     time = time + dt
@@ -43,20 +54,22 @@ local colors = {
 }
 
 function love.draw()
-    local width, height = love.graphics.getDimensions()
+    push:start()
 
     love.graphics.setFont(font)
 
-    local startWidth = (width - font:getWidth(text)) / 2
+    local startWidth = (GAME_WIDTH - font:getWidth(title)) / 2
     local chHeight = font:getHeight()
-    for i = 1, #text do
+    for i = 1, #title do
         local color = colors[i]
         love.graphics.setColor(color.r, color.g, color.b, 255)
 
-        local ch = text:sub(i, i)
+        local ch = title:sub(i, i)
         local chWidth = font:getWidth(ch)
         startWidth = startWidth + chWidth / 2
-        love.graphics.print(ch, startWidth, height / 4 + math.sin(time * 5 + 20 * i) * 10, 0, 1, 1, chWidth / 2, chHeight / 2)
+        love.graphics.print(ch, startWidth, GAME_HEIGHT / 4 + math.sin(time * 5 + 20 * i) * 10, 0, 1, 1, chWidth / 2, chHeight / 2)
         startWidth = startWidth + chWidth / 2
     end
+
+    push:finish()
 end
