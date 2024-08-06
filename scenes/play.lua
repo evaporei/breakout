@@ -45,12 +45,41 @@ function PlayScene:update(dt)
 
     if self.ball:collidesWith(self.paddle) then
         self.ball.vy = -self.ball.vy
+        self.ball.y = self.paddle.y - 8
+
+        -- ball hit paddle on its left side while moving left
+        if self.ball.x < self.paddle.x + (self.paddle.width / 2) and self.paddle.vx < 0 then
+            self.ball.vx = -50 + -(8 * (self.paddle.x + self.paddle.width / 2 - self.ball.x))
+        -- ball hit paddle on its right side while moving right
+        elseif self.ball.x > self.paddle.x + (self.paddle.width / 2) and self.paddle.vx > 0 then
+            self.ball.vx = 50 + (8 * math.abs(self.paddle.x + self.paddle.width / 2 - self.ball.x))
+        end
+
         sounds.paddle_hit:play()
     end
 
     for _, brick in pairs(self.bricks) do
         if not brick.deleted and self.ball:collidesWith(brick) then
             brick:hit()
+
+            -- left edge; only check if we're moving right
+            if self.ball.x + self.ball.width / 4 < brick.x and self.ball.vx > 0 then
+                self.ball.vx = -self.ball.vx
+                self.ball.x = brick.x - brick.width / 2
+            elseif self.ball.x + self.ball.width / 4 * 3 > brick.x + brick.width and self.ball.vx < 0 then
+                self.ball.vx = -self.ball.vx
+                self.ball.x = brick.x + brick.width
+            elseif self.ball.y < self.ball.y then
+                self.ball.vy = -self.ball.vy
+                self.ball.y = brick.y + brick.height / 2
+            else
+                self.ball.vy = -self.ball.vy
+                self.ball.y = brick.y + brick.height
+            end
+
+            self.ball.vy = self.ball.vy * 1.02
+
+            break
         end
     end
 end
