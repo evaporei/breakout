@@ -4,7 +4,7 @@ local push = require('deps.push')
 
 love.graphics.setDefaultFilter('nearest', 'nearest')
 
-local sprites = require('sprites')
+local images = require('images')
 
 local StateMachine = require('state_machine')
 local StartScene = require('scenes.start')
@@ -40,11 +40,11 @@ end
 function love.draw()
     push:start()
 
-    local bgWidth = sprites.background:getWidth()
-    local bgHeight = sprites.background:getHeight()
+    local bgWidth = images.background:getWidth()
+    local bgHeight = images.background:getHeight()
 
     love.graphics.draw(
-        sprites.background,
+        images.background,
         -- x, y
         0, 0,
         -- no rotation
