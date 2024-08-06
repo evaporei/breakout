@@ -27,6 +27,30 @@ local function paddleQuads(atlas)
     return quads
 end
 
+local function ballQuads(atlas)
+    local x, y = 96, 48
+
+    local quads = {}
+
+    -- 4 balls in first row
+    for _ = 0, 3 do
+        local ball = love.graphics.newQuad(x, y, 8, 8, atlas:getDimensions())
+        table.insert(quads, ball)
+        x = x + 8
+    end
+
+    x, y = 96, 56
+    -- 3 balls in second row
+    for _ = 0, 2 do
+        local ball = love.graphics.newQuad(x, y, 8, 8, atlas:getDimensions())
+        table.insert(quads, ball)
+        x = x + 8
+    end
+
+    return quads
+end
+
 return {
-    paddles = paddleQuads(images.breakout)
+    paddles = paddleQuads(images.breakout),
+    balls = ballQuads(images.breakout)
 }
