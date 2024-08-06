@@ -50,7 +50,42 @@ local function ballQuads(atlas)
     return quads
 end
 
+function table.slice(list, first, last, step)
+    local res = {}
+    for i = first or 1, last or #list, step or 1 do
+        table.insert(res, list[i])
+    end
+    return res
+end
+
+local function quads(atlas, tileWidth, tileHeight)
+    local sheetWidth = atlas:getWidth() / tileWidth
+    local sheetHeight = atlas:getHeight() / tileHeight
+
+    local spritesheet = {}
+
+    for y = 0, sheetHeight - 1 do
+        for x = 0, sheetWidth - 1 do
+            local sprite = love.graphics.newQuad(
+                x * tileWidth,
+                y * tileHeight,
+                tileWidth,
+                tileHeight,
+                atlas:getDimensions()
+            )
+            table.insert(spritesheet, sprite)
+        end
+    end
+
+    return spritesheet
+end
+
+local function brickQuads(image)
+    return table.slice(quads(image, 32, 16), 1, 21)
+end
+
 return {
     paddles = paddleQuads(images.breakout),
-    balls = ballQuads(images.breakout)
+    balls = ballQuads(images.breakout),
+    bricks = brickQuads(images.breakout)
 }

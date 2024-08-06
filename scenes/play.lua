@@ -5,6 +5,7 @@ local fonts = require('fonts')
 
 local Paddle = require('paddle')
 local Ball = require('ball')
+local LevelMaker = require('level_maker')
 
 local PlayScene = {}
 setmetatable(PlayScene, { __index = BaseScene })
@@ -16,6 +17,7 @@ function PlayScene.new(stateMachine)
 
     self.paddle = Paddle.new()
     self.ball = Ball.new(1, self.paddle)
+    self.bricks = LevelMaker.createMap()
     self.paused = false
 
     setmetatable(self, { __index = PlayScene })
@@ -39,13 +41,26 @@ function PlayScene:update(dt)
     self.paddle:update(dt)
     self.ball:update(dt)
 
-    self.ball:collideWall()
-    self.ball:collidePaddle(self.paddle)
+    self.ball:bounceWall()
+
+    if self.ball:collidesWith(self.paddle) then
+        self.ball.vy = -self.ball.vy
+        sounds.paddle_hit:play()
+    end
+
+    for _, brick in pairs(self.bricks) do
+        if not brick.deleted and self.ball:collidesWith(brick) then
+            brick:hit()
+        end
+    end
 end
 
 function PlayScene:render()
     self.paddle:render()
     self.ball:render()
+    for _, brick in pairs(self.bricks) do
+        brick:render()
+    end
 
     if self.paused then
         love.graphics.setFont(fonts.large)
