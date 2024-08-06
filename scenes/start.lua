@@ -1,9 +1,12 @@
 local BaseScene = require('scenes.base')
 
 local fonts = require('fonts')
+local sounds = require('sounds')
 
 local StartScene = {}
 setmetatable(StartScene, { __index = BaseScene })
+
+local highlighted = 1
 
 function StartScene.new(stateMachine)
     local self = {}
@@ -22,9 +25,17 @@ function StartScene:update(dt)
 end
 
 function StartScene:keypressed(key)
+    if key == 'up' or key == 'down' then
+        highlighted = highlighted == 1 and 2 or 1
+        sounds.paddle_hit:play()
+    end
     if key == 'escape' then
         love.event.quit()
     end
+end
+
+local function resetColor()
+    love.graphics.setColor(255/255, 255/255, 255/255, 255/255)
 end
 
 function StartScene:renderTitle()
@@ -43,10 +54,29 @@ function StartScene:renderTitle()
         love.graphics.print(ch, startWidth, GAME_HEIGHT / 4 + math.sin(self.time * 5 + 20 * i) * 10, 0, 1, 1, chWidth / 2, chHeight / 2)
         startWidth = startWidth + chWidth / 2
     end
+
+    resetColor()
+end
+
+local function highlight(which)
+    if highlighted == which then
+        love.graphics.setColor(103/255, 255/255, 255/255, 255/255)
+    end
 end
 
 function StartScene:render()
     self:renderTitle()
+
+    love.graphics.setFont(fonts.medium)
+    highlight(1)
+    love.graphics.printf('start', 0, GAME_HEIGHT / 2 + 20, GAME_WIDTH, 'center')
+
+    resetColor()
+
+    highlight(2)
+    love.graphics.printf('high scores', 0, GAME_HEIGHT / 2 + 40, GAME_WIDTH, 'center')
+
+    resetColor()
 end
 
 return StartScene
