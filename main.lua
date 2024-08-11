@@ -18,6 +18,8 @@ local stateMachine = StateMachine.new({
 function love.load()
     love.window.setTitle('BREAKOUT')
 
+    math.randomseed(os.time())
+
     push:setupScreen(GAME_WIDTH, GAME_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
         vsync = true,
         resizable = true,

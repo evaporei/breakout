@@ -15,7 +15,7 @@ function PlayScene.new(params)
     self.paddle = params.paddle
     self.bricks = params.bricks
 
-    self.ball = Ball.new(1, self.paddle)
+    self.ball = Ball.new(self.paddle)
     self.paused = false
 
     setmetatable(self, { __index = PlayScene })

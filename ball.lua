@@ -4,10 +4,8 @@ local sounds = require('sounds')
 
 local Ball = {}
 
-function Ball.new(skin, paddle)
+function Ball.new(paddle, skin)
     local self = {}
-
-    self.skin = skin
 
     self.width = 8
     self.height = 8
@@ -17,6 +15,8 @@ function Ball.new(skin, paddle)
 
     self.vx = math.random(-200, 200)
     self.vy = math.random(-50, -60)
+
+    self.skin = skin or math.random(7)
 
     setmetatable(self, { __index = Ball })
     return self
