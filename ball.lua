@@ -22,6 +22,11 @@ function Ball.new(paddle, skin)
     return self
 end
 
+function Ball:follow(paddle)
+    self.x = paddle.x + paddle.width / 2 - self.width / 2
+    self.y = paddle.y - paddle.height
+end
+
 function Ball:bounceWall()
     if self.x > GAME_WIDTH - self.width then
         self.x = GAME_WIDTH - self.width

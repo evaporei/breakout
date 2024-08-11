@@ -34,7 +34,7 @@ function StartScene:keypressed(key)
     if key == 'enter' or key == 'return' then
         sounds.confirm:play()
         if highlighted == 1 then
-            self.stateMachine:change{'play',
+            self.stateMachine:change{'serve',
                 paddle = Paddle.new(1),
                 bricks = LevelMaker.createMap(),
             }
