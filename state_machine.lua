@@ -9,8 +9,10 @@ function StateMachine.new(states)
     return self
 end
 
-function StateMachine:change(to)
-    self.curr = self.states[to](self)
+function StateMachine:change(params)
+    local to = params[1]
+    params.stateMachine = self
+    self.curr = self.states[to](params)
 end
 
 function StateMachine:keypressed(key)

@@ -8,10 +8,10 @@ setmetatable(StartScene, { __index = BaseScene })
 
 local highlighted = 1
 
-function StartScene.new(stateMachine)
+function StartScene.new(params)
     local self = {}
 
-    self.stateMachine = stateMachine
+    self.stateMachine = params.stateMachine
 
     self.time = 0
     self.title = 'breakout'
@@ -32,7 +32,7 @@ function StartScene:keypressed(key)
     if key == 'enter' or key == 'return' then
         sounds.confirm:play()
         if highlighted == 1 then
-            self.stateMachine:change('play')
+            self.stateMachine:change{'play'}
         end
     end
     if key == 'escape' then

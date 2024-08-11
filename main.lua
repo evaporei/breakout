@@ -24,7 +24,7 @@ function love.load()
         fullscreen = false
     })
 
-    stateMachine:change('start')
+    stateMachine:change{'start'}
 end
 
 function love.resize(w, h)

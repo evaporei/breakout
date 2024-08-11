@@ -10,10 +10,10 @@ local LevelMaker = require('level_maker')
 local PlayScene = {}
 setmetatable(PlayScene, { __index = BaseScene })
 
-function PlayScene.new(stateMachine)
+function PlayScene.new(params)
     local self = {}
 
-    self.stateMachine = stateMachine
+    self.stateMachine = params.stateMachine
 
     self.paddle = Paddle.new(1)
     self.ball = Ball.new(1, self.paddle)
