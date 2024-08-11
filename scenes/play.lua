@@ -15,7 +15,7 @@ function PlayScene.new(stateMachine)
 
     self.stateMachine = stateMachine
 
-    self.paddle = Paddle.new()
+    self.paddle = Paddle.new(1)
     self.ball = Ball.new(1, self.paddle)
     self.bricks = LevelMaker.createMap()
     self.paused = false

@@ -5,7 +5,7 @@ local Paddle = {}
 
 local SPEED = 200
 
-function Paddle.new()
+function Paddle.new(skin)
     local self = {}
 
     self.x = GAME_WIDTH / 2 - 32
@@ -17,7 +17,7 @@ function Paddle.new()
     self.height = 16
 
     -- blue = 1, green = 2, red = 3, purple = 4
-    self.skin = 1
+    self.skin = skin
     -- small = 1, mid = 2, large = 3, huge = 4
     self.size = 2
 
