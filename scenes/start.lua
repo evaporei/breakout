@@ -1,4 +1,6 @@
 local BaseScene = require('scenes.base')
+local Paddle = require('paddle')
+local LevelMaker = require('level_maker')
 
 local fonts = require('fonts')
 local sounds = require('sounds')
@@ -32,7 +34,10 @@ function StartScene:keypressed(key)
     if key == 'enter' or key == 'return' then
         sounds.confirm:play()
         if highlighted == 1 then
-            self.stateMachine:change{'play'}
+            self.stateMachine:change{'play',
+                paddle = Paddle.new(1),
+                bricks = LevelMaker.createMap(),
+            }
         end
     end
     if key == 'escape' then

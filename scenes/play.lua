@@ -3,9 +3,7 @@ local BaseScene = require('scenes.base')
 local sounds = require('sounds')
 local fonts = require('fonts')
 
-local Paddle = require('paddle')
 local Ball = require('ball')
-local LevelMaker = require('level_maker')
 
 local PlayScene = {}
 setmetatable(PlayScene, { __index = BaseScene })
@@ -14,10 +12,10 @@ function PlayScene.new(params)
     local self = {}
 
     self.stateMachine = params.stateMachine
+    self.paddle = params.paddle
+    self.bricks = params.bricks
 
-    self.paddle = Paddle.new(1)
     self.ball = Ball.new(1, self.paddle)
-    self.bricks = LevelMaker.createMap()
     self.paused = false
 
     setmetatable(self, { __index = PlayScene })
