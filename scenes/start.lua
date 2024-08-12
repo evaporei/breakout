@@ -36,7 +36,7 @@ function StartScene:keypressed(key)
         if highlighted == 1 then
             self.stateMachine:change{'serve',
                 paddle = Paddle.new(1),
-                bricks = LevelMaker.createMap(),
+                bricks = LevelMaker.createMap(1),
                 health = 3,
                 score = 0,
             }
