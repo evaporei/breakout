@@ -10,11 +10,13 @@ local StateMachine = require('state_machine')
 local StartScene = require('scenes.start')
 local ServeScene = require('scenes.serve')
 local PlayScene = require('scenes.play')
+local GameOverScene = require('scenes.game_over')
 
 local stateMachine = StateMachine.new({
     start = StartScene.new,
     serve = ServeScene.new,
     play = PlayScene.new,
+    ['game-over'] = GameOverScene.new,
 })
 
 function love.load()

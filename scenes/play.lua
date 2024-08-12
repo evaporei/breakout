@@ -43,12 +43,18 @@ function PlayScene:update(dt)
         self.health = self.health - 1
         sounds.hurt:play()
 
-        self.stateMachine:change{'serve',
-            paddle = self.paddle,
-            bricks = self.bricks,
-            health = self.health,
-            score = self.score,
-        }
+        if self.health == 0 then
+            self.stateMachine:change{'game-over',
+                score = self.score,
+            }
+        else
+            self.stateMachine:change{'serve',
+                paddle = self.paddle,
+                bricks = self.bricks,
+                health = self.health,
+                score = self.score,
+            }
+        end
     end
 
     self.paddle:update(dt)
