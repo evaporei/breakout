@@ -37,6 +37,8 @@ function StartScene:keypressed(key)
             self.stateMachine:change{'serve',
                 paddle = Paddle.new(1),
                 bricks = LevelMaker.createMap(),
+                health = 3,
+                score = 0,
             }
         end
     end

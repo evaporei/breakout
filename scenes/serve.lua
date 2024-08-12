@@ -1,8 +1,7 @@
 local BaseScene = require('scenes.base')
 
-local sounds = require('sounds')
 local fonts = require('fonts')
-
+local render = require('render')
 local Ball = require('ball')
 
 local ServeScene = {}
@@ -28,6 +27,8 @@ function ServeScene:keypressed(key)
         self.stateMachine:change{'play',
             paddle = self.paddle,
             bricks = self.bricks,
+            health = self.health,
+            score = self.score,
             ball = self.ball
         }
     end
@@ -48,6 +49,9 @@ function ServeScene:render()
     for _, brick in pairs(self.bricks) do
         brick:render()
     end
+
+    render.score(self.score)
+    render.health(self.health)
 
     love.graphics.setFont(fonts.medium)
     love.graphics.printf("press 'Enter' to serve!", 0, GAME_HEIGHT / 2, GAME_WIDTH, 'center')

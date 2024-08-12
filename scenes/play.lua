@@ -2,6 +2,7 @@ local BaseScene = require('scenes.base')
 
 local sounds = require('sounds')
 local fonts = require('fonts')
+local render = require('render')
 
 local Ball = require('ball')
 
@@ -14,6 +15,8 @@ function PlayScene.new(params)
     self.stateMachine = params.stateMachine
     self.paddle = params.paddle
     self.bricks = params.bricks
+    self.health = params.health
+    self.score = params.score
 
     self.ball = Ball.new(self.paddle)
     self.paused = false
@@ -34,6 +37,18 @@ end
 function PlayScene:update(dt)
     if self.paused then
         return
+    end
+
+    if self.ball:offScreen() then
+        self.health = self.health - 1
+        sounds.hurt:play()
+
+        self.stateMachine:change{'serve',
+            paddle = self.paddle,
+            bricks = self.bricks,
+            health = self.health,
+            score = self.score,
+        }
     end
 
     self.paddle:update(dt)
@@ -59,6 +74,8 @@ function PlayScene:update(dt)
     for _, brick in pairs(self.bricks) do
         if not brick.deleted and self.ball:collidesWith(brick) then
             brick:hit()
+
+            self.score = self.score + 10
 
             -- left edge; only check if we're moving right
             if self.ball.x + self.ball.width / 4 < brick.x and self.ball.vx > 0 then
@@ -88,6 +105,9 @@ function PlayScene:render()
     for _, brick in pairs(self.bricks) do
         brick:render()
     end
+
+    render.score(self.score)
+    render.health(self.health)
 
     if self.paused then
         love.graphics.setFont(fonts.large)

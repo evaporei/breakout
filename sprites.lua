@@ -87,5 +87,6 @@ end
 return {
     paddles = paddleQuads(images.breakout),
     balls = ballQuads(images.breakout),
-    bricks = brickQuads(images.breakout)
+    bricks = brickQuads(images.breakout),
+    hearts = quads(images.hearts, 10, 9),
 }

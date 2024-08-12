@@ -58,6 +58,10 @@ function Ball:collidesWith(obj)
     return true
 end
 
+function Ball:offScreen()
+    return self.y + self.height >= GAME_HEIGHT
+end
+
 function Ball:update(dt)
     self.x = self.x + self.vx * dt
     self.y = self.y + self.vy * dt
