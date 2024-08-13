@@ -14,10 +14,16 @@ function LevelMaker.createMap(level)
 
     local numRows = math.random(1, 5)
     local numCols = math.random(7, 13)
+    -- -- debug
+    -- local numRows = math.random(1)
+    -- local numCols = math.random(1)
     numCols = numCols % 2 == 0 and (numCols + 1) or numCols
 
     local highestTier = math.min(3, math.floor(level / 5))
     local highestColor = math.min(5, level % 5 + 3)
+    -- -- debug
+    -- local highestTier = 1
+    -- local highestColor = 1
 
     for y = 1, numRows do
         local skipPattern = math.random(2) == 1 and true or false

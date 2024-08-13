@@ -13,6 +13,7 @@ function PlayScene.new(params)
     local self = {}
 
     self.stateMachine = params.stateMachine
+    self.level = params.level
     self.paddle = params.paddle
     self.bricks = params.bricks
     self.health = params.health
@@ -34,7 +35,29 @@ function PlayScene:keypressed(key)
     end
 end
 
+-- local timer = 0
+
 function PlayScene:update(dt)
+    -- -- debug
+    -- timer = timer + dt
+    -- if timer > 2 then
+    --     timer = 0
+    --     for _, brick in pairs(self.bricks) do
+    --         brick:hit()
+    --     end
+    --     if self:victory() then
+    --         sounds.victory:play()
+    --
+    --         self.stateMachine:change{'victory',
+    --             level = self.level,
+    --             paddle = self.paddle,
+    --             health = self.health,
+    --             score = self.score,
+    --             ball = self.ball,
+    --         }
+    --         return
+    --     end
+    -- end
     if self.paused then
         return
     end
@@ -83,6 +106,18 @@ function PlayScene:update(dt)
 
             self.score = self.score + (brick.tier * 200 + brick.color * 25)
 
+            if self:victory() then
+                sounds.victory:play()
+
+                self.stateMachine:change{'victory',
+                    level = self.level,
+                    paddle = self.paddle,
+                    health = self.health,
+                    score = self.score,
+                    ball = self.ball,
+                }
+            end
+
             -- left edge; only check if we're moving right
             if self.ball.x + self.ball.width / 4 < brick.x and self.ball.vx > 0 then
                 self.ball.vx = -self.ball.vx
@@ -107,6 +142,15 @@ function PlayScene:update(dt)
     for _, brick in pairs(self.bricks) do
         brick:update(dt)
     end
+end
+
+function PlayScene:victory()
+    for _, brick in pairs(self.bricks) do
+        if not brick.deleted then
+            return false
+        end
+    end
+    return true
 end
 
 function PlayScene:render()
