@@ -41,6 +41,7 @@ function StartScene:keypressed(key)
                 health = 3,
                 score = 0,
                 level = 1,
+                highScores = self.highScores,
             }
         elseif highlighted == 2 then
             self.stateMachine:change{'high-scores',

@@ -41,10 +41,24 @@ function fs.loadHighScores()
 
     for line in love.filesystem.lines('breakout.lst') do
         local name, score = fs.split(line, ',')
-        table.insert(scores, { name = name, score = score })
+        table.insert(scores, { name = name, score = tonumber(score) })
     end
 
     return scores
+end
+
+function fs.saveHighScores(highScores)
+    love.filesystem.setIdentity('breakout2')
+
+    local scoresStr = ''
+    for _, pair in pairs(highScores) do
+        scoresStr = scoresStr .. pair.name
+        scoresStr = scoresStr .. ','
+        scoresStr = scoresStr .. tostring(pair.score)
+        scoresStr = scoresStr .. '\n'
+    end
+
+    love.filesystem.write('breakout.lst', scoresStr)
 end
 
 return fs

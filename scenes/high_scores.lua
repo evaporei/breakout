@@ -2,8 +2,6 @@ local BaseScene = require('scenes.base')
 
 local sounds = require('sounds')
 local fonts = require('fonts')
-local render = require('render')
-local LevelMaker = require('level_maker')
 
 local HighScoresScene = {}
 setmetatable(HighScoresScene, { __index = BaseScene })

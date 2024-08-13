@@ -16,6 +16,7 @@ function ServeScene.new(params)
     self.bricks = params.bricks
     self.health = params.health
     self.score = params.score
+    self.highScores = params.highScores
 
     self.ball = Ball.new(self.paddle)
 
@@ -31,7 +32,8 @@ function ServeScene:keypressed(key)
             health = self.health,
             score = self.score,
             ball = self.ball,
-            level = self.level
+            level = self.level,
+            highScores = self.highScores
         }
     end
 

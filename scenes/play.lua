@@ -18,6 +18,7 @@ function PlayScene.new(params)
     self.bricks = params.bricks
     self.health = params.health
     self.score = params.score
+    self.highScores = params.highScores
 
     self.ball = Ball.new(self.paddle)
     self.paused = false
@@ -38,12 +39,13 @@ end
 -- local timer = 0
 
 function PlayScene:update(dt)
-    -- -- debug
+    -- debug
     -- timer = timer + dt
-    -- if timer > 2 then
+    -- if timer > 2 and self.level == 1 then
     --     timer = 0
     --     for _, brick in pairs(self.bricks) do
     --         brick:hit()
+    --         self.score = self.score + (brick.tier * 200 + brick.color * 25)
     --     end
     --     if self:victory() then
     --         sounds.victory:play()
@@ -54,6 +56,7 @@ function PlayScene:update(dt)
     --             health = self.health,
     --             score = self.score,
     --             ball = self.ball,
+    --             highScores = self.highScores,
     --         }
     --         return
     --     end
@@ -69,6 +72,7 @@ function PlayScene:update(dt)
         if self.health == 0 then
             self.stateMachine:change{'game-over',
                 score = self.score,
+                highScores = self.highScores,
             }
         else
             self.stateMachine:change{'serve',
@@ -76,6 +80,7 @@ function PlayScene:update(dt)
                 bricks = self.bricks,
                 health = self.health,
                 score = self.score,
+                highScores = self.highScores,
             }
         end
     end

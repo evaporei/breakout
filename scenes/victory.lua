@@ -17,6 +17,7 @@ function VictoryScene.new(params)
     self.health = params.health
     self.score = params.score
     self.ball = params.ball
+    self.highScores = params.highScores
 
     setmetatable(self, { __index = VictoryScene })
     return self
@@ -31,6 +32,7 @@ function VictoryScene:keypressed(key)
             health = self.health,
             score = self.score,
             ball = self.ball,
+            highScores = self.highScores,
         }
     end
 end

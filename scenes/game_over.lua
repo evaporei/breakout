@@ -1,5 +1,6 @@
 local BaseScene = require('scenes.base')
 
+local sounds = require('sounds')
 local fonts = require('fonts')
 
 local GameOverScene = {}
@@ -10,6 +11,7 @@ function GameOverScene.new(params)
 
     self.stateMachine = params.stateMachine
     self.score = params.score
+    self.highScores = params.highScores
 
     setmetatable(self, { __index = GameOverScene })
     return self
@@ -17,7 +19,31 @@ end
 
 function GameOverScene:keypressed(key)
     if key == 'enter' or key == 'return' then
-        self.stateMachine:change{'start'}
+        local highScore = false
+
+        local scoreIndex = 11
+
+        for i = 10, 1, -1 do
+            local score = self.highScores[i].score or 0
+            if self.score > score then
+                scoreIndex = i
+                highScore = true
+            end
+        end
+
+        if highScore then
+            sounds['high_score']:play()
+            self.stateMachine:change{'enter-high-score',
+                score = self.score,
+                highScores = self.highScores,
+                scoreIndex = scoreIndex,
+            }
+        else
+            self.stateMachine:change{'start',
+                highScores = self.highScores
+            }
+        end
+
     end
 
     if key == 'escape' then
