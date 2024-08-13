@@ -103,6 +103,10 @@ function PlayScene:update(dt)
             break
         end
     end
+
+    for _, brick in pairs(self.bricks) do
+        brick:update(dt)
+    end
 end
 
 function PlayScene:render()
@@ -110,6 +114,7 @@ function PlayScene:render()
     self.ball:render()
     for _, brick in pairs(self.bricks) do
         brick:render()
+        brick:renderParticles()
     end
 
     render.score(self.score)
