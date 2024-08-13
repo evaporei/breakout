@@ -23,4 +23,28 @@ function fs.dirToTable(dir, cb)
     return files
 end
 
+function fs.loadHighScores()
+    love.filesystem.setIdentity('breakout2')
+
+    if not love.filesystem.getInfo('breakout.lst') then
+        local scores = ''
+
+        for i = 10, 1, -1 do
+            scores = scores .. 'EVA,'
+            scores = scores .. tostring(i * 1000) .. '\n'
+        end
+
+        love.filesystem.write('breakout.lst', scores)
+    end
+
+    local scores = {}
+
+    for line in love.filesystem.lines('breakout.lst') do
+        local name, score = fs.split(line, ',')
+        table.insert(scores, { name = name, score = score })
+    end
+
+    return scores
+end
+
 return fs

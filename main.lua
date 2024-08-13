@@ -5,6 +5,7 @@ local push = require('deps.push')
 love.graphics.setDefaultFilter('nearest', 'nearest')
 
 local images = require('images')
+local fs = require('fs')
 
 local StateMachine = require('state_machine')
 local StartScene = require('scenes.start')
@@ -12,6 +13,7 @@ local ServeScene = require('scenes.serve')
 local PlayScene = require('scenes.play')
 local GameOverScene = require('scenes.game_over')
 local VictoryScene = require('scenes.victory')
+local HighScoresScene = require('scenes.high_scores')
 
 local stateMachine = StateMachine.new({
     start = StartScene.new,
@@ -19,6 +21,7 @@ local stateMachine = StateMachine.new({
     play = PlayScene.new,
     ['game-over'] = GameOverScene.new,
     victory = VictoryScene.new,
+    ['high-scores'] = HighScoresScene.new,
 })
 
 function love.load()
@@ -32,7 +35,9 @@ function love.load()
         fullscreen = false
     })
 
-    stateMachine:change{'start'}
+    stateMachine:change{'start',
+        highScores = fs.loadHighScores(),
+    }
 end
 
 function love.resize(w, h)

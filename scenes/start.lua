@@ -14,6 +14,7 @@ function StartScene.new(params)
     local self = {}
 
     self.stateMachine = params.stateMachine
+    self.highScores = params.highScores
 
     self.time = 0
     self.title = 'breakout'
@@ -40,6 +41,10 @@ function StartScene:keypressed(key)
                 health = 3,
                 score = 0,
                 level = 1,
+            }
+        elseif highlighted == 2 then
+            self.stateMachine:change{'high-scores',
+                highScores = self.highScores,
             }
         end
     end
