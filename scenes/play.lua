@@ -81,7 +81,7 @@ function PlayScene:update(dt)
         if not brick.deleted and self.ball:collidesWith(brick) then
             brick:hit()
 
-            self.score = self.score + 10
+            self.score = self.score + (brick.tier * 200 + brick.color * 25)
 
             -- left edge; only check if we're moving right
             if self.ball.x + self.ball.width / 4 < brick.x and self.ball.vx > 0 then

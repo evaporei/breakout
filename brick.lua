@@ -20,8 +20,28 @@ function Brick.new(x, y)
 end
 
 function Brick:hit()
+    sounds['brick-hit-2']:stop()
     sounds['brick-hit-2']:play()
-    self.deleted = true
+
+    if self.tier > 0 then
+        if self.color == 1 then
+            self.tier = self.tier - 1
+            self.color = 5
+        else
+            self.color = self.color - 1
+        end
+    else
+        if self.color == 1 then
+            self.deleted = true
+        else
+            self.color = self.color - 1
+        end
+    end
+
+    if self.deleted then
+        sounds['brick-hit-1']:stop()
+        sounds['brick-hit-1']:play()
+    end
 end
 
 function Brick:render()
