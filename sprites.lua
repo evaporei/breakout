@@ -89,4 +89,5 @@ return {
     balls = ballQuads(images.breakout),
     bricks = brickQuads(images.breakout),
     hearts = quads(images.hearts, 10, 9),
+    arrows = quads(images.arrows, 24, 24),
 }

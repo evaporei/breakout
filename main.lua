@@ -15,6 +15,7 @@ local GameOverScene = require('scenes.game_over')
 local VictoryScene = require('scenes.victory')
 local HighScoresScene = require('scenes.high_scores')
 local EnterHighScoreScene = require('scenes.enter_high_score')
+local PaddleSelectScene = require('scenes.paddle_select')
 
 local stateMachine = StateMachine.new({
     start = StartScene.new,
@@ -24,6 +25,7 @@ local stateMachine = StateMachine.new({
     victory = VictoryScene.new,
     ['high-scores'] = HighScoresScene.new,
     ['enter-high-score'] = EnterHighScoreScene.new,
+    ['paddle-select'] = PaddleSelectScene.new,
 })
 
 function love.load()
